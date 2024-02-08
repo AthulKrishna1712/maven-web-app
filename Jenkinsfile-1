@@ -17,6 +17,25 @@ node {
             -Dsonar.login=sqp_b7769d6b3c0120435e88a473158587b68e56f2c3"
         }
     }
+    stage('Upoad Artifact to Nexus'){
+            nexusArtifactUploader artifacts: 
+            [
+                [
+                    artifactId: 'maven-web-app', 
+                    classifier: '', 
+                    file: 'target/maven-web-app.war', 
+                    type: 'war'
+                ]
+            ], 
+                credentialsId: 'nexus', 
+                groupId: 'in.devops', 
+                nexusUrl: '3.12.8.101:8081/', 
+                nexusVersion: 'nexus3', 
+                protocol: 'http', 
+                repository: 'Demo-repo', 
+                version: '1.0-SNAPSHOT'
+    }
+        
     
     // Conditionally deploy only for non-feature branches
     if (env.BRANCH_NAME.startsWith('master')) {

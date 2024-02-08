@@ -1,6 +1,6 @@
 node {
     stage('Clone Repo') {
-        git branch: 'master', credentialsId: 'git', url: 'https://github.com/AthulKrishna1712/maven-web-app.git'
+        credentialsId: 'git', url: 'https://github.com/AthulKrishna1712/maven-web-app.git'
     }
     
     stage('Maven Build') {
@@ -18,13 +18,10 @@ node {
         }
     }
     
-    stage('Deploy to Tomcat') {
-        when {
-            // Skip deployment for feature branches
-            expression {
-                return !env.BRANCH_NAME.startsWith('feature/')
-            }
+    // Conditionally deploy only for non-feature branches
+    if (!env.BRANCH_NAME.startsWith('feature/')) {
+        stage('Deploy to Tomcat') {
+            deploy adapters: [tomcat9(credentialsId: 'tomcat_deployer', path: '', url: 'http://3.12.8.101:8080/')], contextPath: 'maven-web-app', war: '**/*.war'
         }
-        deploy adapters: [tomcat9(credentialsId: 'tomcat_deployer', path: '', url: 'http://3.12.8.101:8080/')], contextPath: 'maven-web-app', war: '**/*.war'
     }
 }

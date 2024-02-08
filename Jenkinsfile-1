@@ -7,7 +7,8 @@ node {
         def mavenHome = tool name: "maven3", type: "maven"
         def mavenCMD = "${mavenHome}/bin/mvn"
         sh "${mavenCMD} clean package"
-        sh $echo env.BRANCH_NAME    }
+        sh echo $env.BRANCH_NAME    
+}
     
     stage('Sonarqube-Analysis') {
         withSonarQubeEnv(credentialsId: 'sonarqube_token') {

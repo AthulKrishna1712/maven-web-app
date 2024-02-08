@@ -1,6 +1,6 @@
 node {
     stage('Clone Repo') {
-        credentialsId: 'git', url: 'https://github.com/AthulKrishna1712/maven-web-app.git'
+        git credentialsId: 'git', url: 'https://github.com/AthulKrishna1712/maven-web-app.git'
     }
     
     stage('Maven Build') {
@@ -25,3 +25,4 @@ node {
         }
     }
 }
+

@@ -19,7 +19,7 @@ node {
     }
     
     // Conditionally deploy only for non-feature branches
-    if (!env.BRANCH_NAME.startsWith('feature/')) {
+    if (env.BRANCH_NAME.startsWith('master/')) {
         stage('Deploy to Tomcat') {
             deploy adapters: [tomcat9(credentialsId: 'tomcat_deployer', path: '', url: 'http://3.12.8.101:8080/')], contextPath: 'maven-web-app', war: '**/*.war'
         }
